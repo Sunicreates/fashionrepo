@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from './components/ui/theme-provider';
 import M1 from './Mainpage.jsx';
 import LandingPage from './components/auth/Mainlanding.jsx';
@@ -40,7 +40,18 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<LandingPage setUser={setUserdata} />} />
-            <Route path="/dashboard" element={<M1 user={userdata} />} />
+            <Route 
+              path="/dashboard" 
+              element={
+                userdata ? (
+                  <M1 user={userdata} />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              } 
+            />
+            {/* Catch all route - redirect to home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       </div>
